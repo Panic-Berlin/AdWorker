@@ -1,7 +1,7 @@
 package com.star.lite.junk.adworker
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.star.lite.junk.adworker.databinding.ActivityMainBinding
 import com.star.lite.junk.adworkerlib.AdWorker
@@ -13,34 +13,36 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        adWorkerInitialize()
+        ads()
         initViews()
+    }
+
+    private fun ads() {
+        AdWorker().initialize(this, "")
+        AdWorker().loadBanner(
+            viewBinding.banner,
+            this,
+            viewBinding.adViewContainer,
+            ""
+        )
     }
 
     private fun initViews() {
         viewBinding.btnShowInter.setOnClickListener {
-            AdWorker().showInter()
+            AdWorker().showInter("", this)
         }
     }
 
-    private fun adWorkerInitialize() {
-        AdWorker().initialize(
-            this,
-            this,
-            "yandex"
-        )
-        AdWorker().setRegion("yandex", "admob")
-        AdWorker().startAdWorker(this)
-        AdWorker().loadBannerIntoContainer(viewBinding.banner, this, viewBinding.adViewContainer)
+    override fun onResume() {
+        super.onResume()
+        AdWorker().onResume(this)
     }
 
-    override fun onStop() {
-        super.onStop()
-        AdWorker().isBannerVisible = false
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        AdWorker().isBannerVisible = false
+    override fun onPause() {
+        super.onPause()
+        AdWorker().onPause(this)
     }
 }
+
+private var YANDEX: String = "io4xqqApBq5DG0qV"
+private var ADMOB: String = "gb2gTqPgccq3ACXt"
