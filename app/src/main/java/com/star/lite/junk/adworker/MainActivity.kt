@@ -18,18 +18,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun ads() {
-        AdWorker().initialize(this, "")
+        AdWorker().getRegion()
+        AdWorker().initialize(this)
         AdWorker().loadBanner(
             viewBinding.banner,
             this,
             viewBinding.adViewContainer,
-            ""
         )
     }
 
     private fun initViews() {
         viewBinding.btnShowInter.setOnClickListener {
-            AdWorker().showInter("", this)
+            AdWorker().showInter(this)
         }
     }
 
@@ -43,6 +43,3 @@ class MainActivity : AppCompatActivity() {
         AdWorker().onPause(this)
     }
 }
-
-private var YANDEX: String = "io4xqqApBq5DG0qV"
-private var ADMOB: String = "gb2gTqPgccq3ACXt"

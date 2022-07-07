@@ -13,7 +13,7 @@ class YandexAds(activity: Activity) {
 
     //Yandex
     private val TAG = "YandexAds"
-    private var YANDEX_BANNER_BLOCK_ID = "adf-279013/966631"
+    private var YANDEX_BANNER_BLOCK_ID = "R-M-DEMO-320x50"
     private var YANDEX_INTER_BLOCK_ID = "adf-279013/966533"
     var yandexBannerIsVisible = false
     var isYandexInterstitialLoaded = false
@@ -67,9 +67,9 @@ class YandexAds(activity: Activity) {
      * Загрузка полноэкранной рекламы
      */
     private fun loadYandexInterstitial() {
-        yandexInterstitialAd!!.setAdUnitId(YANDEX_INTER_BLOCK_ID)
+        yandexInterstitialAd.setAdUnitId(YANDEX_INTER_BLOCK_ID)
         val adRequest = com.yandex.mobile.ads.common.AdRequest.Builder().build()
-        yandexInterstitialAd!!.setInterstitialAdEventListener(object : InterstitialAdEventListener {
+        yandexInterstitialAd.setInterstitialAdEventListener(object : InterstitialAdEventListener {
             override fun onAdLoaded() {
                 isYandexInterstitialLoaded = true
                 Log.d(TAG, "onInterAdLoaded: yandex ad load")
@@ -110,7 +110,7 @@ class YandexAds(activity: Activity) {
     }
 
     /**
-     * Демонстрация полнжкранной рекламы
+     * Демонстрация полноэкранной рекламы
      */
     fun showYandexInter() {
         yandexInterstitialAd.show()
