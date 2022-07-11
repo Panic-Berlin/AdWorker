@@ -13,6 +13,12 @@ import com.google.android.gms.ads.*
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_BANNER_IMPERSSION
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_INTER_IMPERSSION
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_OPEN_AD_IMPERSSION
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_PARAM_AD_SOURCE
 import java.util.*
 
 class AdMob {
@@ -27,9 +33,9 @@ class AdMob {
     private val _isShowingAd = MutableLiveData(false)
     val isShowingAd get() = _isShowingAd.asLiveData()
 
-    fun startAdmobWorker(context: Context) {
+    fun startAdmobWorker(context: Context, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         fetchOpenAd(context)
-        loadInter(context)
+        loadInter(context, firebaseAnalytics, pageName)
     }
 
     private val isOpenAdAvailable: Boolean
@@ -41,11 +47,11 @@ class AdMob {
     val isInterReady: Boolean
         get() = mInterstitialAd != null
 
-    fun showAdmobInter(activity: Activity) {
+    fun showAdmobInter(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         if (mInterstitialAd != null) {
             _isShowingAd.value = true
             Log.wtf(TAG, "Start showing inter")
-            setInterCallback(activity)
+            setInterCallback(activity, firebaseAnalytics, pageName)
             mInterstitialAd!!.show(activity)
         } else {
             Log.d(TAG, "The interstitial ad wasn't ready yet.")
@@ -98,7 +104,7 @@ class AdMob {
         )
     }
 
-    private fun setInterCallback(context: Context) {
+    private fun setInterCallback(context: Context, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         mInterstitialAd!!.fullScreenContentCallback = object : FullScreenContentCallback() {
             override fun onAdDismissedFullScreenContent() {
                 // Called when fullscreen content is dismissed.
@@ -118,14 +124,17 @@ class AdMob {
                 // show it a second time.
                 mInterstitialAd = null
                 _isShowingAd.value = true
-                loadInter(context)
+                loadInter(context, firebaseAnalytics, pageName)
+                firebaseAnalytics.logEvent(EVENT_NAME_INTER_IMPERSSION) {
+                    param(EVENT_PARAM_AD_SOURCE, pageName)
+                }
                 Log.d("TAG", "The ad was shown.")
                 Log.d("TAG", "The ad was shown.")
             }
         }
     }
 
-    fun loadInter(context: Context) {
+    fun loadInter(context: Context, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         isInterError = false
         Log.wtf(TAG, "Start loading inter")
         val adRequest = AdRequest.Builder().build()
@@ -143,7 +152,7 @@ class AdMob {
                     Log.i(TAG, loadAdError.message)
                     mInterstitialAd = null
                     isInterError = true
-                    //loadIronInterstitial()
+                    IronSourceAds().loadIronInterstitial(firebaseAnalytics, pageName)
                 }
             }
         )
@@ -151,13 +160,13 @@ class AdMob {
 
     /** LifecycleObserver methods  */
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    fun onStart(activity: Activity) {
-        showOpenAdIfAvailable(activity, activity)
+    fun onStart(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
+        showOpenAdIfAvailable(activity, activity, firebaseAnalytics, pageName)
         Log.d(TAG, "onStart")
     }
 
     /** Shows the ad if one isn't already showing.  */
-    private fun showOpenAdIfAvailable(context: Context, activity: Activity) {
+    private fun showOpenAdIfAvailable(context: Context, activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         // Only show ad if there is not already an app open ad currently showing
         // and an ad is available.
         if (!isShowingAd.value!! && isOpenAdAvailable) {
@@ -174,6 +183,9 @@ class AdMob {
                     override fun onAdFailedToShowFullScreenContent(adError: AdError) {}
                     override fun onAdShowedFullScreenContent() {
                         _isShowingAd.value = true
+                        firebaseAnalytics.logEvent(EVENT_NAME_OPEN_AD_IMPERSSION) {
+                            param(EVENT_PARAM_AD_SOURCE, pageName)
+                        }
                     }
                 }
             appOpenAd!!.fullScreenContentCallback = fullScreenContentCallback
@@ -184,7 +196,7 @@ class AdMob {
     }
 
 
-    fun loadAdmobBannerIntoContainer(activity: Activity, adContainerView: FrameLayout, context: Context) {
+    fun loadAdmobBannerIntoContainer(activity: Activity, adContainerView: FrameLayout, context: Context, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         adContainerView.visibility = View.INVISIBLE
         val mAdView = AdView(context)
         mAdView.adUnitId = BANNER_AD_UNIT_ID
@@ -206,6 +218,9 @@ class AdMob {
 
             override fun onAdImpression() {
                 super.onAdImpression()
+                firebaseAnalytics.logEvent(EVENT_NAME_BANNER_IMPERSSION) {
+                    param(EVENT_PARAM_AD_SOURCE, pageName)
+                }
             }
         }
     }

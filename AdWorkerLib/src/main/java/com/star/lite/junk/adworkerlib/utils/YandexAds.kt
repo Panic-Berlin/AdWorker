@@ -3,6 +3,8 @@ package com.star.lite.junk.adworkerlib.utils
 import android.app.Activity
 import android.util.Log
 import android.view.View
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.yandex.mobile.ads.banner.BannerAdEventListener
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequestError
@@ -20,14 +22,14 @@ class YandexAds(activity: Activity) {
 
     private var yandexInterstitialAd = com.yandex.mobile.ads.interstitial.InterstitialAd(activity)
 
-    fun startYandexAdWorker() {
-        loadYandexInterstitial()
+    fun startYandexAdWorker(firebaseAnalytics: FirebaseAnalytics, pageName: String) {
+        loadYandexInterstitial(firebaseAnalytics, pageName)
     }
 
     /**
      * Загрузка рекламы в баннере
      */
-    fun loadYandexBannerIntoContainer(bannerAdView: BannerAdView) {
+    fun loadYandexBannerIntoContainer(bannerAdView: BannerAdView, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         bannerAdView.visibility = View.INVISIBLE
         bannerAdView.setAdUnitId(YANDEX_BANNER_BLOCK_ID)
         bannerAdView.setAdSize(com.yandex.mobile.ads.banner.AdSize.BANNER_320x50) // Banner size. Default 320x50
@@ -55,6 +57,9 @@ class YandexAds(activity: Activity) {
             }
 
             override fun onImpression(p0: ImpressionData?) {
+                firebaseAnalytics.logEvent(ConstantsAds.EVENT_NAME_BANNER_IMPERSSION) {
+                    param(ConstantsAds.EVENT_PARAM_AD_SOURCE, pageName)
+                }
                 Log.d(TAG, "onImpressionBanner: $p0")
             }
 
@@ -66,7 +71,7 @@ class YandexAds(activity: Activity) {
     /**
      * Загрузка полноэкранной рекламы
      */
-    private fun loadYandexInterstitial() {
+    private fun loadYandexInterstitial(firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         yandexInterstitialAd.setAdUnitId(YANDEX_INTER_BLOCK_ID)
         val adRequest = com.yandex.mobile.ads.common.AdRequest.Builder().build()
         yandexInterstitialAd.setInterstitialAdEventListener(object : InterstitialAdEventListener {
@@ -81,6 +86,9 @@ class YandexAds(activity: Activity) {
             }
 
             override fun onAdShown() {
+                firebaseAnalytics.logEvent(ConstantsAds.EVENT_NAME_INTER_IMPERSSION) {
+                    param(ConstantsAds.EVENT_PARAM_AD_SOURCE, pageName)
+                }
                 Log.d(TAG, "onrAdShownInterstitial: Ad show")
             }
 

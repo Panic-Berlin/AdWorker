@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "713350123407",
+    "project_id": "adworker-d7956",
+    "storage_bucket": "adworker-d7956.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:713350123407:android:d7a9ef2a4229c0c02845fa",
+        "android_client_info": {
+          "package_name": "com.star.lite.junk.adworker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "713350123407-p4rkk4u2skqrhn9cac0n2bvrq8k0hnn0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCltPLcCdo-C2sXNqtHd7mtegtky94HliA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "713350123407-p4rkk4u2skqrhn9cac0n2bvrq8k0hnn0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

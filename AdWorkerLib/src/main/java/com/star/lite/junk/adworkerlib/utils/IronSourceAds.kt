@@ -3,6 +3,8 @@ package com.star.lite.junk.adworkerlib.utils
 import android.app.Activity
 import android.util.Log
 import android.widget.FrameLayout
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.logEvent
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.logger.IronSourceError
@@ -13,12 +15,12 @@ class IronSourceAds {
 
     private val TAG = "IronSource"
 
-    fun startIronSource(){
-        loadIronInterstitial()
+    fun startIronSource(firebaseAnalytics: FirebaseAnalytics, pageName: String){
+        loadIronInterstitial(firebaseAnalytics, pageName)
     }
 
     var isIronInterLoad = false
-    private fun loadIronInterstitial() {
+    fun loadIronInterstitial(firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         IronSource.setInterstitialListener(object : InterstitialListener {
             override fun onInterstitialAdReady() {
                 isIronInterLoad = true
@@ -31,6 +33,9 @@ class IronSourceAds {
             }
 
             override fun onInterstitialAdOpened() {
+                firebaseAnalytics.logEvent(ConstantsAds.EVENT_NAME_INTER_IMPERSSION) {
+                    param(ConstantsAds.EVENT_PARAM_AD_SOURCE, pageName)
+                }
                 Log.d(TAG, "onInterstitialAdOpened: ad open")
             }
 
@@ -58,7 +63,7 @@ class IronSourceAds {
         IronSource.showInterstitial()
     }
 
-    fun loadIronBanner(mainActivity: Activity, adContainerView: FrameLayout) {
+    fun loadIronBanner(mainActivity: Activity, adContainerView: FrameLayout, firebaseAnalytics: FirebaseAnalytics, pageName: String) {
         val banner = IronSource.createBanner(mainActivity, ISBannerSize.BANNER)
         adContainerView.addView(banner)
         banner.bannerListener = object : BannerListener {
@@ -78,6 +83,9 @@ class IronSourceAds {
 
             override fun onBannerAdScreenPresented() {
                 // Called when a banner is about to present a full screen content.
+                firebaseAnalytics.logEvent(ConstantsAds.EVENT_NAME_BANNER_IMPERSSION) {
+                    param(ConstantsAds.EVENT_PARAM_AD_SOURCE, pageName)
+                }
             }
 
             override fun onBannerAdScreenDismissed() {

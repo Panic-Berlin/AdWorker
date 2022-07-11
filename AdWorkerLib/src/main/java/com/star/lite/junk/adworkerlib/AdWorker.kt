@@ -4,12 +4,18 @@ import android.app.Activity
 import android.util.Log
 import android.widget.FrameLayout
 import com.google.android.gms.ads.MobileAds
+import com.google.firebase.analytics.FirebaseAnalytics
 import com.ironsource.mediationsdk.IronSource
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import com.star.lite.junk.adworkerlib.retrofit.RegionRes
 import com.star.lite.junk.adworkerlib.retrofit.RegionService
 import com.star.lite.junk.adworkerlib.utils.AdMob
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.ADMOB
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.APP_KEY
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.BASE_URL
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.YANDEX
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.region
 import com.star.lite.junk.adworkerlib.utils.IronSourceAds
 import com.star.lite.junk.adworkerlib.utils.YandexAds
 import com.yandex.mobile.ads.banner.BannerAdView
@@ -21,10 +27,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 class AdWorker{
 
-    private var YANDEX: String = "iLjOmXcXo1XqjgHu"
-    private var ADMOB: String = "kTzKDWTUTq1W3Bdq"
-    private var region = "iLjOmXcXo1XqjgHu"
-    private val APP_KEY = "157edbc35"
     private val TAG = "AdWorker"
 
 
@@ -50,33 +52,33 @@ class AdWorker{
         })
     }
 
-    fun initialize(activity: Activity){
+    fun initialize(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String){
         when(region){
             YANDEX -> {
                 com.yandex.mobile.ads.common.MobileAds.initialize(activity){
-                    YandexAds(activity).startYandexAdWorker()
+                    YandexAds(activity).startYandexAdWorker(firebaseAnalytics, pageName)
                 }
             }
             ADMOB -> {
                 MobileAds.initialize(activity){
-                    AdMob().startAdmobWorker(activity)
+                    AdMob().startAdmobWorker(activity, firebaseAnalytics, pageName)
                 }
             }
             else -> {
                 IronSource.init(activity, APP_KEY){
-                   IronSourceAds().startIronSource()
+                   IronSourceAds().startIronSource(firebaseAnalytics, pageName)
                 }
             }
         }
     }
 
-    fun showInter(activity: Activity){
+    fun showInter(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String){
         when(region){
             YANDEX -> {
                 YandexAds(activity).showYandexInter()
             }
             ADMOB -> {
-                AdMob().showAdmobInter(activity)
+                AdMob().showAdmobInter(activity, firebaseAnalytics, pageName)
             }
             else -> {
                 IronSourceAds().showIronInter()
@@ -88,22 +90,24 @@ class AdWorker{
         bannerAdView: BannerAdView,
         activity: Activity,
         adContainerView: FrameLayout,
+        firebaseAnalytics: FirebaseAnalytics,
+        pageName: String
     ){
         when(region){
             YANDEX -> {
-                YandexAds(activity).loadYandexBannerIntoContainer(bannerAdView)
+                YandexAds(activity).loadYandexBannerIntoContainer(bannerAdView, firebaseAnalytics, pageName)
             }
             ADMOB -> {
-                AdMob().loadAdmobBannerIntoContainer(activity, adContainerView, activity)
+                AdMob().loadAdmobBannerIntoContainer(activity, adContainerView, activity, firebaseAnalytics, pageName)
             }
             else -> {
-                IronSourceAds().loadIronBanner(activity, adContainerView)
+                IronSourceAds().loadIronBanner(activity, adContainerView, firebaseAnalytics, pageName)
             }
         }
     }
 
-    fun onStart(activity: Activity){
-        AdMob().onStart(activity)
+    fun onStart(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String){
+        AdMob().onStart(activity, firebaseAnalytics, pageName)
     }
 
     fun onPause(activity: Activity){
@@ -114,4 +118,4 @@ class AdWorker{
         IronSourceAds().onResume(activity)
     }
 }
-private const val BASE_URL = "https://atrack.us/"
+
