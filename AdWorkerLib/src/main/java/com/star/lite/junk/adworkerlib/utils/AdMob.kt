@@ -15,10 +15,13 @@ import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.APP_OPEN_AD_UNIT_ID
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.BANNER_AD_UNIT_ID
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_BANNER_IMPERSSION
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_INTER_IMPERSSION
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_OPEN_AD_IMPERSSION
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_PARAM_AD_SOURCE
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.INTER_AD_UNIT_ID
 import java.util.*
 
 class AdMob {
@@ -241,7 +244,3 @@ class AdMob {
         return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
     }
 }
-
-const val BANNER_AD_UNIT_ID: String = "ca-app-pub-3940256099942544/6300978111"
-const val APP_OPEN_AD_UNIT_ID: String = "ca-app-pub-3940256099942544/3419835294"
-const val INTER_AD_UNIT_ID: String = "ca-app-pub-3940256099942544/1033173712"

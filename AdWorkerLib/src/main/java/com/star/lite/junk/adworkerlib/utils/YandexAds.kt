@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.View
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.YANDEX_BANNER_BLOCK_ID
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.YANDEX_INTER_BLOCK_ID
 import com.yandex.mobile.ads.banner.BannerAdEventListener
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequestError
@@ -15,8 +17,6 @@ class YandexAds(activity: Activity) {
 
     //Yandex
     private val TAG = "YandexAds"
-    private var YANDEX_BANNER_BLOCK_ID = "R-M-DEMO-320x50"
-    private var YANDEX_INTER_BLOCK_ID = "adf-279013/966533"
     var yandexBannerIsVisible = false
     var isYandexInterstitialLoaded = false
 
