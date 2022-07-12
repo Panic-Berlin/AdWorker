@@ -7,6 +7,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.logEvent
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.YANDEX_BANNER_BLOCK_ID
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.YANDEX_INTER_BLOCK_ID
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.isBannerVisible
 import com.yandex.mobile.ads.banner.BannerAdEventListener
 import com.yandex.mobile.ads.banner.BannerAdView
 import com.yandex.mobile.ads.common.AdRequestError
@@ -17,7 +18,6 @@ class YandexAds(activity: Activity) {
 
     //Yandex
     private val TAG = "YandexAds"
-    var yandexBannerIsVisible = false
     var isYandexInterstitialLoaded = false
 
     private var yandexInterstitialAd = com.yandex.mobile.ads.interstitial.InterstitialAd(activity)
@@ -36,7 +36,7 @@ class YandexAds(activity: Activity) {
         bannerAdView.setBannerAdEventListener(object : BannerAdEventListener {
             override fun onAdLoaded() {
                 bannerAdView.visibility = View.VISIBLE
-                yandexBannerIsVisible = true
+                isBannerVisible = true
                 Log.d(TAG, "onAdLoadedBanner: load")
             }
 

@@ -22,6 +22,7 @@ import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_IN
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_NAME_OPEN_AD_IMPERSSION
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.EVENT_PARAM_AD_SOURCE
 import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.INTER_AD_UNIT_ID
+import com.star.lite.junk.adworkerlib.utils.ConstantsAds.Companion.isBannerVisible
 import java.util.*
 
 class AdMob {
@@ -216,7 +217,7 @@ class AdMob {
             override fun onAdLoaded() {
                 super.onAdLoaded()
                 adContainerView.visibility = View.VISIBLE
-                bannerIsVisible = true
+                isBannerVisible = true
             }
 
             override fun onAdImpression() {

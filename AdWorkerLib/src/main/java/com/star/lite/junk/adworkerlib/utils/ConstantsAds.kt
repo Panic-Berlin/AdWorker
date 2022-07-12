@@ -21,6 +21,8 @@ class ConstantsAds {
         var region = ""
         var APP_KEY = ""
         var BASE_URL = ""
+
+        var isBannerVisible = false
     }
 
 }
