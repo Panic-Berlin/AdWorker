@@ -70,6 +70,7 @@ class IronSourceAds {
             override fun onBannerAdLoaded() {
                 // Called after a banner ad has been successfully loaded
                 Log.d(TAG, "onBannerAdLoaded: bannerLoad")
+                ConstantsAds.isBannerVisible = true
             }
 
             override fun onBannerAdLoadFailed(error: IronSourceError) {
