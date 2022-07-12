@@ -57,7 +57,7 @@ dependencies {
     //Yandex Ads
     implementation 'com.yandex.android:mobmetricalib:4.2.0'
     //noinspection MobileAdsSdkOutdatedVersion
-    implementation 'com.yandex.android:mobileads:5.1.0'
+    implementation 'com.yandex.android:mobileads:5.2.0'
 
     //IronSource
     implementation 'com.ironsource.sdk:mediationsdk:7.2.1.1'

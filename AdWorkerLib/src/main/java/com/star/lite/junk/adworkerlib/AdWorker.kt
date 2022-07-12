@@ -53,7 +53,7 @@ class AdWorker{
     }
 
     fun initialize(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String){
-        when(region){
+        when(   region){
             YANDEX -> {
                 com.yandex.mobile.ads.common.MobileAds.initialize(activity){
                     YandexAds(activity).startYandexAdWorker(firebaseAnalytics, pageName)
