@@ -1,30 +1,29 @@
 # AdWorker - advertising library(AdMob, YandexAds, IronSource)
 
 ## How to:
-___
+
 To get a Git project into your build:
-*Step 1.* Add the JitPack repository to your build file
+**Step 1.** Add the JitPack repository to your build file
 
 Add it in your root settings.gradle at the end of repositories:
 ```
 repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+	...
+	maven { url 'https://jitpack.io' }
+}
 ```
 
-*Step 2.* Add the dependency
+**Step 2.** Add the dependency
 ```
 dependencies {
-	        implementation 'com.github.Panic-Berlin:AdWorker:v1.3.2'
-	}
+	implementation 'com.github.Panic-Berlin:AdWorker:v1.3.2'
+}
 ```
-*That's it!*
+**That's it!**
 
 ## Initialize
-___
 
-*Step 1.* Add ads id
+**Step 1.** Add ads id
 
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,7 +39,7 @@ ___
    }
 ```
 
-*Step 2.* Set region.
+**Step 2.** Set region.
 
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +53,7 @@ ___
     }
 ```    
     
-*Step 3.* Initialize.
+**Step 3.** Initialize.
 
 
 ```
@@ -66,7 +65,7 @@ ___
     }
 ``` 
 
-*Step 4.* Load banner ads.
+**Step 4.** Load banner ads.
 
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,7 +76,7 @@ ___
     }
 ```
 
-*Step 5.* Show interstitial ads.
+**Step 5.** Show interstitial ads.
 
 
 ```
@@ -91,4 +90,4 @@ ___
     }
 ```
 ___
-*Great, everything is ready!*
+**Great, everything is ready!**
