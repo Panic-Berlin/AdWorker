@@ -3,6 +3,7 @@
 ## How to:
 
 To get a Git project into your build:
+
 **Step 1.** Add the JitPack repository to your build file
 
 Add it in your root settings.gradle at the end of repositories:
@@ -78,7 +79,6 @@ dependencies {
 
 **Step 5.** Show interstitial ads.
 
-
 ```
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -88,6 +88,20 @@ dependencies {
         }
         ...
     }
+```
+
+**Step 6.** Add OnResume and onPause
+
+```
+override fun onResume() {
+    super.onResume()
+    AdWorker().onResume(activity)
+}
+
+override fun onPause() {
+    super.onPause()
+    AdWorker().onPause(activity)
+}
 ```
 ___
 **Great, everything is ready!**
