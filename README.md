@@ -2,7 +2,7 @@
 
 ## How to:
 
-To get a Git project into your build:
+To add a library to your assembly:
 
 **Step 1.** Add the JitPack repository to your build file
 
