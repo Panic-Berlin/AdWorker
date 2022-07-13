@@ -17,7 +17,9 @@ repositories {
 **Step 2.** Add the dependency
 ```
 dependencies {
+	...
 	implementation 'com.github.Panic-Berlin:AdWorker:v1.3.2'
+	...
 }
 ```
 **That's it!**
@@ -95,12 +97,16 @@ dependencies {
 ```
 override fun onResume() {
     super.onResume()
+    ...
     AdWorker().onResume(activity)
+    ...
 }
 
 override fun onPause() {
     super.onPause()
+    ...
     AdWorker().onPause(activity)
+    ...
 }
 ```
 ___
