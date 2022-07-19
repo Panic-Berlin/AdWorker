@@ -6,5 +6,8 @@ import retrofit2.http.GET
 interface RegionService {
 
     @GET("begin")
-    fun getRegion(): Call<RegionRes>
+    fun getRegionWithBegin(): Call<RegionRes>
+
+    @GET("p")
+    fun getRegionWithP(): Call<RegionRes>
 }

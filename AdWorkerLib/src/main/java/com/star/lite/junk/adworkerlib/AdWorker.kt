@@ -30,7 +30,7 @@ class AdWorker{
     private val TAG = "AdWorker"
 
 
-    fun getRegion(){
+    fun getRegion(endToken: String){
         val moshi = Moshi.Builder()
             .addLast(KotlinJsonAdapterFactory())
             .build()
@@ -40,20 +40,36 @@ class AdWorker{
             .build()
         val api = retrofit.create(RegionService::class.java)
 
-        api.getRegion().enqueue(object : Callback<RegionRes> {
-            override fun onResponse(call: Call<RegionRes>, response: Response<RegionRes>) {
-                region = response.body()?.result.toString()
-                Log.d(TAG, "onResponse: $region")
-            }
+        when(endToken){
+            TOKEN_WITH_P -> {
+                api.getRegionWithP().enqueue(object : Callback<RegionRes> {
+                    override fun onResponse(call: Call<RegionRes>, response: Response<RegionRes>) {
+                        region = response.body()?.result.toString()
+                        Log.d(TAG, "onResponse: $region")
+                    }
 
-            override fun onFailure(call: Call<RegionRes>, t: Throwable) {
-                Log.d(TAG, "onFailure: $t")
+                    override fun onFailure(call: Call<RegionRes>, t: Throwable) {
+                        Log.d(TAG, "onFailure: $t")
+                    }
+                })
             }
-        })
+            TOKEN_WITH_BEGIN -> {
+                api.getRegionWithBegin().enqueue(object : Callback<RegionRes> {
+                    override fun onResponse(call: Call<RegionRes>, response: Response<RegionRes>) {
+                        region = response.body()?.result.toString()
+                        Log.d(TAG, "onResponse: $region")
+                    }
+
+                    override fun onFailure(call: Call<RegionRes>, t: Throwable) {
+                        Log.d(TAG, "onFailure: $t")
+                    }
+                })
+            }
+        }
     }
 
     fun initialize(activity: Activity, firebaseAnalytics: FirebaseAnalytics, pageName: String){
-        when(   region){
+        when(region){
             YANDEX -> {
                 com.yandex.mobile.ads.common.MobileAds.initialize(activity){
                     YandexAds(activity).startYandexAdWorker(firebaseAnalytics, pageName)
@@ -118,4 +134,7 @@ class AdWorker{
         IronSourceAds().onResume(activity)
     }
 }
+
+const val TOKEN_WITH_P = "p"
+const val TOKEN_WITH_BEGIN = "begin"
 
